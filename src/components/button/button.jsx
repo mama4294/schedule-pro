@@ -10,7 +10,7 @@ export const Button = ({children, buttonType, ...otherProps}) => {
     const getStyles = (buttonType) => {
         switch (buttonType) {
                 case "outline":
-                   return "text-slate-800 border-slate-800 hover:text-white hover:bg-slate-800 hover:border-transparent"
+                   return "text-slate-800 border border-slate-800 hover:text-white hover:bg-slate-800 hover:border-transparent"
             
                 default:
                     return "text-slate-800 hover:bg-slate-200"
