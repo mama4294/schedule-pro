@@ -1,6 +1,7 @@
 import "./App.css";
 import React, { useState } from "react";
 import { Link, Outlet, Routes, Route } from "react-router-dom";
+import GridPage from "./routes/grid-page";
 
 import { Button } from "./components/button/button";
 
@@ -117,10 +118,6 @@ const Navigation = () => {
       </div>
     </>
   );
-};
-
-const GridPage = () => {
-  return <h1 className="text-3xl font-bold underline">Grid Page!</h1>;
 };
 
 const GanttPage = () => {
