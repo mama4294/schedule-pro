@@ -5,10 +5,6 @@ import PreviousMap from "postcss/lib/previous-map"
 
 const GridPage = () =>{
 
-    const exampleData = React.useMemo(() => makeData(5, 5, 5), [])
-    console.log("example data")
-    console.log(exampleData)
-
     const processData = React.useMemo(() => [{
         id: 1,
         name: "Seed 1 Fermenter",
@@ -72,8 +68,25 @@ const GridPage = () =>{
     const columns = React.useMemo(
         () => [
           {
-            Header: 'ID',
+            Header: '',
             accessor: 'id',
+          },
+          {
+            id: 'selection',
+            // The header can use the table's getToggleAllRowsSelectedProps method
+            // to render a checkbox
+            Header: ({ getToggleAllRowsSelectedProps }) => (
+              <div>
+                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+              </div>
+            ),
+            // The cell can use the individual row's getToggleRowSelectedProps method
+            // to the render a checkbox
+            Cell: ({ row }) => (
+              <div>
+                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+              </div>
+            ),
           },
           {
             // Build our expander column
@@ -121,45 +134,22 @@ const GridPage = () =>{
       )
 }
 
+const IndeterminateCheckbox = React.forwardRef(
+  ({ indeterminate, ...rest }, ref) => {
+    const defaultRef = React.useRef()
+    const resolvedRef = ref || defaultRef
 
-const range = len => {
-  const arr = []
-  for (let i = 0; i < len; i++) {
-    arr.push(i)
+    React.useEffect(() => {
+      resolvedRef.current.indeterminate = indeterminate
+    }, [resolvedRef, indeterminate])
+
+    return (
+      <>
+        <input type="checkbox" ref={resolvedRef} {...rest} />
+      </>
+    )
   }
-  return arr
-}
-
-const newPerson = () => {
-  const statusChance = Math.random()
-  return {
-    firstName: "Matthew",
-    lastName: "Malone",
-    age: Math.floor(Math.random() * 30),
-    visits: Math.floor(Math.random() * 100),
-    progress: Math.floor(Math.random() * 100),
-    status:
-      statusChance > 0.66
-        ? 'relationship'
-        : statusChance > 0.33
-        ? 'complicated'
-        : 'single',
-  }
-}
-
- function makeData(...lens) {
-  const makeDataLevel = (depth = 0) => {
-    const len = lens[depth]
-    return range(len).map(d => {
-      return {
-        ...newPerson(),
-        subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
-      }
-    })
-  }
-
-  return makeDataLevel()
-}
+)
 
 
 

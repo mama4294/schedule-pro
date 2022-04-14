@@ -1,4 +1,5 @@
-import {useTable, useExpanded} from "react-table"
+import {useTable, useExpanded, useRowSelect} from "react-table"
+import { useEffect, useRef, forwardRef } from "react"
 
 
 const Table = ({ columns, data }) => {
@@ -8,13 +9,15 @@ const Table = ({ columns, data }) => {
       headerGroups,
       rows,
       prepareRow,
-      state: { expanded },
+      selectedFlatRows,
+      state: { expanded, selectedRowIds },
     } = useTable(
       {
         columns,
         data,
       },
-      useExpanded // Use the useExpanded plugin hook
+      useExpanded, // Use the useExpanded plugin hook
+      useRowSelect,
     )
   
     return (
@@ -42,6 +45,21 @@ const Table = ({ columns, data }) => {
             })}
           </tbody>
         </table>
+        <p>Selected Rows: {Object.keys(selectedRowIds).length}</p>
+        <pre>
+        <code>
+          {JSON.stringify(
+            {
+              selectedRowIds: selectedRowIds,
+              'selectedFlatRows[].original': selectedFlatRows.map(
+                d => d.original
+              ),
+            },
+            null,
+            2
+          )}
+        </code>
+      </pre>
       </>
     )
   }

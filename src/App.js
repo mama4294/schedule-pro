@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link, Outlet, Routes, Route } from "react-router-dom";
 import GridPage from "./routes/grid-page";
 
-import { Button } from "./components/button/button";
+import { Button } from "./components/button";
 
 function App() {
   return (
