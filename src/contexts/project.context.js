@@ -38,6 +38,7 @@ const defaultTasks = [
     subRows: [
       {
         id: 6,
+
         name: "CIP",
         duration: "2 hours",
         status: "single",
@@ -61,21 +62,19 @@ const defaultTasks = [
 export const ProjectContext = createContext({
   tasks: defaultTasks,
   setTasks: () => null,
-  // cartItems: [],
-  // addItemToCart: () => null,
-  // cartCount: 0,
-  // cartTotal: 0,
-  // removeItemFromCart: () => null,
-  // decreaseProductQuantity: () => null,
+  selectedTaskRowIds: [],
+  setSelectedTaskRowIds: () => null,
 });
 
 export const ProjectProvider = ({ children }) => {
   const [tasks, setTasks] = useState(defaultTasks);
+  const [selectedTaskRowIds, setSelectedTaskRowIds] = useState([]);
 
-  // const [isCartOpen, setIsCartOpen] = useState(false)
-  // const [cartItems, setCartItems] = useState([])
-  // const [cartCount, setCartCount] = useState(0)
-  // const [cartTotal, setCartTotal] = useState(0)
+  useEffect(() => {
+    console.log("new selection");
+    console.log(selectedTaskRowIds);
+    // console.log(selectedTaskRowIds);
+  }, [selectedTaskRowIds]);
 
   // useEffect(() => {
   //     // update number of items in cart
@@ -89,6 +88,8 @@ export const ProjectProvider = ({ children }) => {
   const addTask = (taskToAdd) => setTasks(handleAddTask(tasks, taskToAdd));
   const removeTask = (taskToRemove) =>
     setTasks(handleRemoveTask(tasks, taskToRemove));
+  const deleteSelection = () =>
+    setTasks(handleDeleteSelection(tasks, selectedTaskRowIds));
 
   // const addItemToCart = (productToAdd) =>setCartItems(addCartItem(cartItems, productToAdd))
   // const removeItemFromCart = (productToRemove) =>setCartItems(removeCartItem(cartItems, productToRemove))
@@ -100,6 +101,9 @@ export const ProjectProvider = ({ children }) => {
         tasks,
         addTask,
         removeTask,
+        deleteSelection,
+        selectedTaskRowIds,
+        setSelectedTaskRowIds,
       }}
     >
       {children}
@@ -108,9 +112,21 @@ export const ProjectProvider = ({ children }) => {
 };
 
 const handleAddTask = (tasks, taskToAdd) => {
-  return [...tasks, ...taskToAdd];
+  return [...tasks, taskToAdd];
 };
 
 const handleRemoveTask = (tasks, taskToRemove) => {
   return tasks.filter((task) => task.id !== taskToRemove.id);
+};
+
+const handleDeleteSelection = (tasks, selectedTaskIds) => {
+  console.log(`Deleting: ${selectedTaskIds}`);
+  return tasks.map((element) => {
+    return {
+      ...element,
+      subRows: element.subRows.filter(
+        (subElement) => !selectedTaskIds.includes(subElement.id)
+      ),
+    };
+  });
 };

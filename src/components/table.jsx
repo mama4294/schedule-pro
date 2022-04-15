@@ -2,24 +2,29 @@ import {useTable, useExpanded, useRowSelect} from "react-table"
 import { useEffect, useRef, forwardRef } from "react"
 
 
-const Table = ({ columns, data }) => {
-    const {
-      getTableProps,
-      getTableBodyProps,
-      headerGroups,
-      rows,
-      prepareRow,
-      selectedFlatRows,
-      state: { expanded, selectedRowIds },
-    } = useTable(
-      {
-        columns,
-        data,
-      },
-      useExpanded, // Use the useExpanded plugin hook
-      useRowSelect,
+const Table = ({ columns, data, setSelection }) => {
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    selectedFlatRows,
+    state: { expanded, selectedRowIds },
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useExpanded, // Use the useExpanded plugin hook
+    useRowSelect,
     )
-  
+
+    useEffect(()=>{
+      setSelection(selectedFlatRows.map( d => d.original.id))
+    },[selectedRowIds])
+
+    
     return (
       <>
         <table {...getTableProps()} className ="">
@@ -45,14 +50,14 @@ const Table = ({ columns, data }) => {
             })}
           </tbody>
         </table>
-        <p>Selected Rows: {Object.keys(selectedRowIds).length}</p>
+        {/* <p>Selected Rows: {Object.keys(selectedRowIds).length}</p> */}
         <pre>
         <code>
           {JSON.stringify(
             {
-              selectedRowIds: selectedRowIds,
-              'selectedFlatRows[].original': selectedFlatRows.map(
-                d => d.original
+              // selectedRowIds: selectedRowIds,
+              'Selected Ids': selectedFlatRows.map(
+                d => d.original.id
               ),
             },
             null,
