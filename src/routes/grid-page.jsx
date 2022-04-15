@@ -1,68 +1,72 @@
 import React from "react"
 import Table from "../components/table"
 import {MdKeyboardArrowDown,MdKeyboardArrowRight} from "react-icons/md"
-import PreviousMap from "postcss/lib/previous-map"
+import { useContext } from "react"
+import { ProjectContext } from "../contexts/project.context"
 
 const GridPage = () =>{
 
-    const processData = React.useMemo(() => [{
-        id: 1,
-        name: "Seed 1 Fermenter",
-        duration: "3 days",
-        status: "single",
-        resources: "steam",
-        subRows: [
-            {
-                id: 2,
-                name: "CIP",
-                duration: "2 hours",
-                status: "single",
-                resources: "steam"
-            },
-            {
-                id: 3,
-                name: "SIP",
-                duration: "3 hours",
-                status: "single",
-                resources: "Steam"
-            },
-            {
-                id: 4,
-                name: "Fermenation",
-                duration: "5 days",
-                status: "single",
-            },
-            ]
-        },
-        {
-            id: 5,
-            name: "Seed 2 Fermenter",
-            duration: "3 days",
-            status: "single",
-            subRows: [
-                {
-                    id: 6,
-                    name: "CIP",
-                    duration: "2 hours",
-                    status: "single",
-                },
-                {
-                    id: 7,
-                    name: "SIP",
-                    duration: "3 hours",
-                    status: "single",
-                },
-                {
-                    id: 8,
-                    name: "Fermenation",
-                    duration: "5 days",
-                    status: "single",
-                },
-                ]
-            },
-    ], [])
+  const {tasks} = useContext(ProjectContext)
+  console.log(tasks)
 
-    console.log(processData)
+  const processData = React.useMemo(() => tasks, [])
+
+    // const processData = React.useMemo(() => [{
+    //     id: 1,
+    //     name: "Seed 1 Fermenter",
+    //     duration: "3 days",
+    //     status: "single",
+    //     resources: "steam",
+    //     subRows: [
+    //         {
+    //             id: 2,
+    //             name: "CIP",
+    //             duration: "2 hours",
+    //             status: "single",
+    //             resources: "steam"
+    //         },
+    //         {
+    //             id: 3,
+    //             name: "SIP",
+    //             duration: "3 hours",
+    //             status: "single",
+    //             resources: "Steam"
+    //         },
+    //         {
+    //             id: 4,
+    //             name: "Fermenation",
+    //             duration: "5 days",
+    //             status: "single",
+    //         },
+    //         ]
+    //     },
+    //     {
+    //         id: 5,
+    //         name: "Seed 2 Fermenter",
+    //         duration: "3 days",
+    //         status: "single",
+    //         subRows: [
+    //             {
+    //                 id: 6,
+    //                 name: "CIP",
+    //                 duration: "2 hours",
+    //                 status: "single",
+    //             },
+    //             {
+    //                 id: 7,
+    //                 name: "SIP",
+    //                 duration: "3 hours",
+    //                 status: "single",
+    //             },
+    //             {
+    //                 id: 8,
+    //                 name: "Fermenation",
+    //                 duration: "5 days",
+    //                 status: "single",
+    //             },
+    //             ]
+    //         },
+    // ], [])
 
 
     const columns = React.useMemo(
